@@ -1,0 +1,46 @@
+Postal
+CREATE TABLE "Postal" (
+	"PostalId"	INTEGER,
+	"PostalCode"	INTEGER UNIQUE,
+	PRIMARY KEY("PostalId" AUTOINCREMENT)
+);
+
+Amphoe
+CREATE TABLE "Amphoe" (
+	"AmphoeId"	INTEGER,
+	"AmphoeName"	TEXT UNIQUE,
+	PRIMARY KEY("AmphoeId" AUTOINCREMENT)
+)
+
+Province
+CREATE TABLE "Province" (
+	"ProvinceId"	INTEGER,
+	"ProvinceName"	TEXT UNIQUE,
+	PRIMARY KEY("ProvinceId" AUTOINCREMENT)
+);
+
+Tambon
+CREATE TABLE "Tambon" (
+	"TambonId"	INTEGER,
+	"TambonName"	TEXT UNIQUE,
+	PRIMARY KEY("TambonId" AUTOINCREMENT)
+)
+
+Contact
+CREATE TABLE "Contact" (
+	"AddressId"	INTEGER NOT NULL UNIQUE,
+	"PersonAddress"	INTEGER NOT NULL,
+	"TambonId"	INTEGER NOT NULL,
+	"AmphoeId"	INTEGER NOT NULL,
+	"ProvinceId"	INTEGER NOT NULL,
+	"PostalId"	INTEGER NOT NULL,
+	"CustomerId"	INTEGER,
+	"EmployeeId"	INTEGER,
+	FOREIGN KEY("EmployeeId") REFERENCES "Employee"("EmployeeId"),
+	PRIMARY KEY("AddressId" AUTOINCREMENT),
+	FOREIGN KEY("ProvinceId") REFERENCES "Province"("ProvinceId"),
+	FOREIGN KEY("PostalId") REFERENCES "Postal"("PostalId"),
+	FOREIGN KEY("TambonId") REFERENCES "Tambon"("TambonId"),
+	FOREIGN KEY("CustomerId") REFERENCES "Customer"("CustomerId"),
+	FOREIGN KEY("AmphoeId") REFERENCES "Amphoe"("AmphoeId")
+);

@@ -6,17 +6,19 @@ conn = sqlite3.connect('rentalshop.db')
 cursor = conn.cursor()
 
 # Open and read the CSV file
-with open('./data/category.csv', 'r') as csv_file:
+with open('./data/Province.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
-    # Skip the header row if it exists
-    next(csv_reader)
-    # Insert data from the CSV file into the table
-    for row in csv_reader:
-        # Remove the last element from each row (last_update)
-        row.pop()  # Remove the last element (last_update)
-        cursor.execute('''INSERT INTO Category (CategoryId, CategoryName) 
-                          VALUES (?, ?)''', row)
-
+    # Get the header row
+    head = next(csv_reader, None)
+    if head is not None:
+        # Construct the SQL query string
+        placeholders = ','.join(['?'] * len(head))
+        print(placeholders)
+        query = f"INSERT INTO Province ({','.join(head)}) VALUES ({placeholders})"
+        print(query)
+        # Insert data from the CSV file into the table
+        for row in csv_reader:
+            cursor.execute(query, row)
 
 # Commit changes and close connection
 conn.commit()
