@@ -6,7 +6,7 @@ conn = sqlite3.connect('rentalshop.db')
 cursor = conn.cursor()
 
 # Open and read the CSV file
-with open('./data/Province.csv', 'r') as csv_file:
+with open('./data/Contact.csv', 'r') as csv_file:
     csv_reader = csv.reader(csv_file)
     # Get the header row
     head = next(csv_reader, None)
@@ -14,7 +14,7 @@ with open('./data/Province.csv', 'r') as csv_file:
         # Construct the SQL query string
         placeholders = ','.join(['?'] * len(head))
         print(placeholders)
-        query = f"INSERT INTO Province ({','.join(head)}) VALUES ({placeholders})"
+        query = f"INSERT INTO Contact ({','.join(head)}) VALUES ({placeholders})"
         print(query)
         # Insert data from the CSV file into the table
         for row in csv_reader:
