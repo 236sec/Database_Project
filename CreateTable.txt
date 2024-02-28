@@ -1,0 +1,96 @@
+Duty,
+CREATE TABLE "Duty" (
+	"DutyId"	INTEGER NOT NULL UNIQUE,
+	"DutyName"	TEXT NOT NULL,
+	PRIMARY KEY("DutyId" AUTOINCREMENT)
+);
+
+Employee,
+CREATE TABLE "Employee" (
+	"EmployeeId"	INTEGER NOT NULL UNIQUE,
+	"FirstName"	TEXT NOT NULL,
+	"LastName"	TEXT NOT NULL,
+	"Income"	NUMERIC NOT NULL,
+	"WorkRatePerWeek"	NUMERIC NOT NULL CHECK(WorkRatePerWeek<7),
+	PRIMARY KEY("EmployeeId" AUTOINCREMENT)
+);
+
+Employee_duty,
+CREATE TABLE "Employee_Duty" (
+	"EmpDutyId"	INTEGER NOT NULL UNIQUE,
+	"EmployeeId"	INTEGER NOT NULL,
+	"DutyId"	INTEGER NOT NULL,
+	FOREIGN KEY("EmployeeId") REFERENCES "Employee"("EmployeeId"),
+	FOREIGN KEY("DutyId") REFERENCES "Duty"("DutyId"),
+	PRIMARY KEY("EmpDutyId" AUTOINCREMENT)
+);
+
+Movie,
+CREATE TABLE "Movie" (
+	"MovieId"	INTEGER NOT NULL UNIQUE,
+	"MovieName"	TEXT NOT NULL,
+	"ReleaseDate"	DATETIME NOT NULL,
+	"IMDBScore"	NUMERIC NOT NULL,
+	"RentCost"	NUMERIC NOT NULL,
+	"CategoryId"	INTEGER NOT NULL,
+	"DirectorId"	INTEGER NOT NULL,
+	FOREIGN KEY("DirectorId") REFERENCES "Director"("DirectorId"),
+	FOREIGN KEY("CategoryId") REFERENCES "Category"("CategoryId"),
+	PRIMARY KEY("MovieId" AUTOINCREMENT)
+);
+
+Category,
+CREATE TABLE "Category" (
+	"CategoryId"	INTEGER NOT NULL UNIQUE,
+	"CategoryName"	TEXT NOT NULL,
+	PRIMARY KEY("CategoryId" AUTOINCREMENT)
+);
+
+Director,
+CREATE TABLE "Director" (
+	"DirectorId"	INTEGER NOT NULL UNIQUE,
+	"FirstName"	TEXT NOT NULL,
+	"LastName"	TEXT NOT NULL,
+	PRIMARY KEY("DirectorId" AUTOINCREMENT)
+);
+
+Renting,
+CREATE TABLE Renting (
+    RentingId INTEGER PRIMARY KEY AUTOINCREMENT,
+    RentDate DATETIME NOT NULL,
+    Deadline DATETIME NOT NULL,
+    CustomerId INTEGER NOT NULL,
+    EmployeeId INTEGER NOT NULL,
+    MovieId INTEGER NOT NULL,
+    FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId),
+    FOREIGN KEY(EmployeeId) REFERENCES Employee(EmployeeId),
+    FOREIGN KEY(MovieId) REFERENCES Movie(MovieId)
+);
+
+Customer,
+CREATE TABLE "Customer" ( 
+ "CustomerId" INTEGER NOT NULL UNIQUE, 
+ "FirstName" TEXT NOT NULL,
+ "LastName" TEXT NOT NULL, 
+ PRIMARY KEY("CustomerId" AUTOINCREMENT) 
+);
+
+Contact,
+CREATE TABLE Contact (
+    AddressId INTEGER PRIMARY KEY AUTOINCREMENT,
+    HouseNum TEXT NOT NULL,
+    Moo INTEGER NOT NULL,
+    Tambon TEXT NOT NULL,
+    Amphoe TEXT NOT NULL,
+    Province TEXT NOT NULL,
+    PostalCode INTEGER NOT NULL,
+    Phone TEXT NOT NULL,
+    Email TEXT NOT NULL,
+    CustomerId INTEGER ,
+    EmployeeId INTEGER ,
+    FOREIGN KEY(CustomerId) REFERENCES Customer(CustomerId),
+    FOREIGN KEY(EmployeeId) REFERENCES Employee(EmployeeId)
+);
+
+ALTER TABLE Customer
+ADD COLUMN Gender Text;
